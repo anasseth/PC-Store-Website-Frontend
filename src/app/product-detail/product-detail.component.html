@@ -1,0 +1,186 @@
+<app-header></app-header>
+<div class="pd-wrap">
+  <div class="container">
+    <div class="heading-section">
+      <!-- <h2>Product Details</h2> -->
+    </div>
+    <div class="row">
+      <div
+        class="col-md-6 text-center"
+        style="
+          background-color: white;
+          border: 2px solid #8a8afc;
+          padding: 20px;
+          border-radius: 20px;
+        "
+      >
+        <img [src]="this.global.selectedProduct.imageURL" style="width: 85%" />
+      </div>
+      <div class="col-md-6">
+        <div class="product-dtl">
+          <div class="product-info">
+            <div class="product-name">
+              {{ this.global.selectedProduct.company_name }}
+            </div>
+            <div class="reviews-counter">
+              <div class="rate">
+                <!-- <ngb-rating
+                  [max]="5"
+                  [(rate)]="rating"
+                  style="font-size: 15px"
+                ></ngb-rating> -->
+              </div>
+              <span>{{ this.global.selectedProduct.reviews.length }}</span>
+            </div>
+            <div class="product-price-discount">
+              <span>£{{ this.global.selectedProduct.discounted_price }}</span
+              ><span class="line-through"
+                >£{{ this.global.selectedProduct.original_price }}</span
+              >
+            </div>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+            <br />
+            <b
+              *ngFor="
+                let feature of this.global.selectedProduct.feature;
+                let i = index
+              "
+              >{{ i + 1 }} {{ feature }}</b
+            >
+          </p>
+          <div class="product-count">
+            <label for="size">Quantity</label>
+            <form action="#" class="display-flex">
+              <div class="qtyminus" (click)="changeQty('-')">-</div>
+              <input
+                type="text"
+                name="quantity"
+                class="qty"
+                [(ngModel)]="qty"
+              />
+              <div class="qtyplus" (click)="changeQty('+')">+</div>
+            </form>
+            <button class="round-black-btn" (click)="saveOrder()">
+              Buy Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="product-info-tabs">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            id="description-tab"
+            data-toggle="tab"
+            href="#description"
+            role="tab"
+            aria-controls="description"
+            aria-selected="true"
+            >Description</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            id="review-tab"
+            data-toggle="tab"
+            href="#review"
+            role="tab"
+            aria-controls="review"
+            aria-selected="false"
+            >Reviews ({{ this.global.selectedProduct.reviews.length }})</a
+          >
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div
+          class="tab-pane fade show active"
+          id="description"
+          role="tabpanel"
+          aria-labelledby="description-tab"
+        >
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum. Sed ut
+          perspiciatis unde omnis iste natus error sit voluptatem accusantium
+          doloremque laudantium, totam rem aperiam.
+        </div>
+        <div
+          class="tab-pane fade"
+          id="review"
+          role="tabpanel"
+          aria-labelledby="review-tab"
+        >
+          <div class="review-heading">REVIEWS</div>
+          <p
+            class="mb-20"
+            *ngIf="this.global.selectedProduct.reviews.length == 0"
+          >
+            There are no reviews yet.
+          </p>
+          <div *ngIf="this.global.selectedProduct.reviews.length > 0">
+            <div *ngFor="let review of this.global.selectedProduct.reviews">
+              <b>{{ review.username }}</b>
+              <p class="mb-20">{{ review.message }}</p>
+            </div>
+          </div>
+          <div class="review-form" *ngIf="isLogin">
+            <div class="form-group">
+              <label>Your rating</label>
+              <br />
+              <ngb-rating [max]="5" [(rate)]="rating"></ngb-rating>
+            </div>
+            <div class="form-group">
+              <label>Your message</label>
+              <textarea
+                class="form-control"
+                rows="10"
+                [(ngModel)]="message"
+              ></textarea>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name=""
+                    class="form-control"
+                    placeholder="Name*"
+                    [(ngModel)]="username"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name=""
+                    class="form-control"
+                    disabled=""
+                    placeholder="Email Id*"
+                    [(ngModel)]="email"
+                  />
+                </div>
+              </div>
+            </div>
+            <button class="round-black-btn" (click)="postReview()">
+              Submit Review
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

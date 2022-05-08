@@ -1,0 +1,52 @@
+<header class="header">
+  <div class="container header__container">
+    <div class="header__logo">
+      <img class="header__img" src="https://image.ibb.co/kcVou6/path3000.png" />
+      <h1 class="header__title">
+        DigitalRebuild<span class="header__light">.io</span>
+      </h1>
+    </div>
+    <button
+      type="button"
+      class="navbar-toggle collapsed"
+      data-toggle="collapse"
+      data-target="#navbar"
+      aria-expanded="false"
+      aria-controls="navbar"
+      *ngIf="false"
+    >
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+
+    <div class="header__menu">
+      <nav id="navbar" class="header__nav collapse">
+        <ul class="header__elenco">
+          <li class="header__el">
+            <a (click)="navigateToHome()" class="header__link">Home</a>
+          </li>
+          <li class="header__el">
+            <a class="header__link" (click)="navigateToShop()">Shop</a>
+          </li>
+          <li class="header__el">
+            <a class="header__link">Reviews</a>
+          </li>
+          <li class="header__el"><a class="header__link">Blog</a></li>
+          <li class="header__el">
+            <a class="header__link">Contact us</a>
+          </li>
+          <li class="header__el header__el--blue">
+            <a class="btn btn--white" (click)="navigateToLogin()">Admin →</a>
+          </li>
+          <li class="header__el header__el--blue">
+            <a class="btn btn--white" (click)="navigateToUserLogin()"
+              >Log In →</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>

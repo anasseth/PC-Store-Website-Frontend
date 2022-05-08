@@ -23,8 +23,17 @@
                   <span>Admin</span>
                 </a>
                 <a
+                  class="btn d-inline-flex btn-sm btn-success border-base mx-1"
+                  (click)="exportexcel()"
+                >
+                  <span class="pe-2">
+                    <!-- <i class="bi bi-pencil"></i> -->
+                  </span>
+                  <span style="color: white">Export Data</span>
+                </a>
+                <a
                   class="btn d-inline-flex btn-sm btn-danger mx-1"
-                  routerLink="/login"
+                  (click)="logOut()"
                 >
                   <span class="pe-2">
                     <!-- <i class="bi bi-plus"></i> -->
@@ -91,9 +100,11 @@
                       class="h6 font-semibold text-muted text-sm d-block mb-2"
                       >New Orders</span
                     >
-                    <span class="h3 font-bold mb-0">{{
-                      this.orderData.length
-                    }}</span>
+                    <span
+                      class="h3 font-bold mb-0"
+                      *ngIf="this.orderData != undefined"
+                      >{{ this.orderData.length }}</span
+                    >
                   </div>
                   <div class="col-auto">
                     <div
@@ -189,6 +200,80 @@
             </div>
           </div>
         </div>
+
+        <div
+          class="site__box-link"
+          style="margin: auto; width: 100%; text-align: center; padding: 20px"
+        >
+          <a
+            [ngClass]="
+              this.isProduct
+                ? 'btn23 btn--width test bgTest'
+                : 'btn23 btn--revert btn--width'
+            "
+            (click)="setTable('Products')"
+            >Products</a
+          >
+          <a
+            [ngClass]="
+              !this.isProduct
+                ? 'btn23 btn--width test bgTest'
+                : 'btn23 btn--revert btn--width'
+            "
+            (click)="setTable('Orders')"
+            >Orders</a
+          >
+        </div>
+        <div
+          class="site__box-link"
+          style="margin: auto; width: 100%; text-align: center; padding: 20px"
+        >
+          <a
+            [ngClass]="
+              this.categorySelected == 'All'
+                ? 'btn23 btn--width test'
+                : 'btn23 btn--revert btn--width'
+            "
+            (click)="setCategory('All')"
+            >All</a
+          >
+          <a
+            [ngClass]="
+              this.categorySelected == 'Laptop'
+                ? 'btn23 btn--width test'
+                : 'btn23 btn--revert btn--width'
+            "
+            (click)="setCategory('Laptop')"
+            >Laptop</a
+          >
+          <a
+            [ngClass]="
+              this.categorySelected == 'PC'
+                ? 'btn23 btn--width test'
+                : 'btn23 btn--revert btn--width'
+            "
+            (click)="setCategory('PC')"
+            >PC</a
+          >
+          <a
+            [ngClass]="
+              this.categorySelected == 'MAC'
+                ? 'btn23 btn--width test'
+                : 'btn23 btn--revert btn--width'
+            "
+            (click)="setCategory('MAC')"
+            >MAC</a
+          >
+          <a
+            [ngClass]="
+              this.categorySelected == 'Accessories'
+                ? 'btn23 btn--width test'
+                : 'btn23 btn--revert btn--width'
+            "
+            (click)="setCategory('Accessories')"
+            >Accessories</a
+          >
+        </div>
         <div
           class="card shadow border-0 mb-7"
           style="border: 5px solid #aec5ff !important"
@@ -197,7 +282,11 @@
             <h5 class="mb-0">Applications</h5>
           </div>
           <div class="table-responsive">
-            <table class="table table-hover table-nowrap">
+            <table
+              class="table table-hover table-nowrap"
+              id="excel-table"
+              *ngIf="isOrder"
+            >
               <thead class="thead-light">
                 <tr>
                   <th scope="col">Customer Name</th>
@@ -210,7 +299,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let order of orderData; let i = index">
+                <tr *ngFor="let order of getFilteredData(); let i = index">
                   <td>
                     <!-- <img
                       alt="..."
@@ -235,12 +324,30 @@
                   <td>£{{ order.discounted_price * order.qty }}</td>
                   <td>{{ order.email }}</td>
                   <td>
-                    <span class="badge badge-lg badge-dot">
-                      <i class="bg-success"></i>{{ order.status }}
-                    </span>
+                    <a
+                      class="btn btn-sm btn-neutral"
+                      *ngIf="order.status == 'Pending'"
+                    >
+                      <span
+                        class="badge badge-lg badge-dot"
+                        (click)="changeStatus(order.status, i)"
+                      >
+                        <i class="bg-danger"></i>{{ order.status }}
+                      </span>
+                    </a>
+                    <a
+                      class="btn btn-sm btn-neutral"
+                      *ngIf="order.status == 'Delivered'"
+                    >
+                      <span
+                        class="badge badge-lg badge-dot"
+                        (click)="changeStatus(order.status, i)"
+                      >
+                        <i class="bg-success"></i>{{ order.status }}
+                      </span>
+                    </a>
                   </td>
                   <td class="text-end">
-                    <a class="btn btn-sm btn-neutral">View</a>
                     <button
                       type="button"
                       class="btn btn-sm btn-square btn-neutral text-danger-hover"
@@ -252,9 +359,106 @@
                 </tr>
               </tbody>
             </table>
+
+            <table
+              class="table table-hover table-nowrap"
+              *ngIf="isProduct"
+              id="excel-table"
+            >
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Company Name</th>
+                  <th scope="col">Model</th>
+                  <th scope="col">Original Price</th>
+                  <th scope="col">Discounted Price</th>
+                  <th scope="col">Total Reviews</th>
+                  <th scope="col">Category</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of getFilteredData(); let i = index">
+                  <td>
+                    <img
+                      alt="..."
+                      src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                      [src]="product.imageURL"
+                      class="avatar avatar-sm rounded-circle me-2"
+                      style="object-fit: contain; padding: 2px"
+                    />
+                    <a class="text-heading font-semibold">{{
+                      product.company_name
+                    }}</a>
+                  </td>
+                  <td>{{ product.model }}</td>
+                  <td>
+                    <!-- <img
+                      alt="..."
+                      src="https://preview.webpixels.io/web/img/other/logos/logo-1.png"
+                      class="avatar avatar-xs rounded-circle me-2"
+                    /> -->
+                    <a class="text-heading font-semibold"
+                      >£{{ product.original_price }}</a
+                    >
+                  </td>
+                  <td>£{{ product.discounted_price }}</td>
+                  <td>{{ product.reviews?.length }}</td>
+                  <td>
+                    {{ product.category }}
+                  </td>
+                  <td class="text-end">
+                    <a
+                      class="btn btn-sm btn-neutral"
+                      (click)="viewComment(product, content, i)"
+                      >View Comment</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </main>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Reviews</h4>
+  </div>
+  <div class="modal-body">
+    <ol class="timeline" *ngFor="let review of reviewsData; let i = index">
+      <li class="timeline-item | extra-space" (dblclick)="deleteReview(review,i)">
+        <div class="timeline-item-wrapper">
+          <div class="timeline-item-description">
+            <i class="avatar | small">
+              <img src="https://assets.codepen.io/285131/hat-man.png" />
+            </i>
+            <span
+              ><a>{{ review.username }}</a></span
+            >
+            <ngb-rating
+              [max]="5"
+              [(rate)]="review.rating"
+              style="font-size: 15px"
+              [readonly]="true"
+            ></ngb-rating>
+          </div>
+          <div class="comment">
+            <p>{{ review.message }} 😊</p>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>

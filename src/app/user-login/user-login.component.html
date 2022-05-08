@@ -2,8 +2,18 @@
   <div class="wrapper fadeInDown">
     <div id="formContent">
       <!-- Tabs Titles -->
-      <h2 class="active">ADMIN</h2>
-      <h2 class="inactive underlineHover">ONLY</h2>
+      <h2
+        [ngClass]="isLogin ? 'active' : 'inactive underlineHover'"
+        (click)="activeLogIn()"
+      >
+        LOG IN
+      </h2>
+      <h2
+        [ngClass]="isSignUp ? 'active' : 'inactive underlineHover'"
+        (click)="activeSignUp()"
+      >
+        SIGN UP
+      </h2>
 
       <!-- Icon -->
       <div class="fadeIn first">
@@ -17,12 +27,21 @@
           id="login"
           class="fadeIn second"
           name="login"
-          placeholder="Admin Email"
+          placeholder="User Name"
+          [(ngModel)]="username"
+        />
+        <input
+          *ngIf="isSignUp"
+          type="text"
+          id="login"
+          class="fadeIn second"
+          name="login"
+          placeholder="Email"
           [(ngModel)]="email"
         />
 
         <input
-          *ngIf="isLogin"
+          *ngIf="isLogin || isSignUp"
           type="text"
           id="password"
           class="fadeIn third"

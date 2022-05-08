@@ -1,0 +1,249 @@
+<div class="my-app">
+  <header class="my-header">
+    <nav class="my-navbar navbar navbar-expand-lg navbar-light bg-white">
+      <a class="my-navbar__logo navbar-brand">
+        <img class="my-navbar__logo-icon" src="./images/icon-money.svg" alt />
+        <span class="my-navbar__logo-text">Dashboard</span>
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link">Orders</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/shop">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Help</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="logOut()">Logout</a>
+          </li>
+        </ul>
+        <div class="my-navbar-buttons">
+          <button class="my-navbar-button">
+            <img
+              class="my-navbar-button__icon"
+              src="./images/icon-settings.svg"
+              alt
+            />
+          </button>
+          <button class="my-navbar-button">
+            <img
+              class="my-navbar-button__icon"
+              src="./images/icon-notifications.svg"
+              alt
+            />
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <!-- Begin content header -->
+    <section class="my-app__header">
+      <div class="container">
+        <div class="my-app__header-inner">
+          <div class="my-app__header-text media">
+            <img
+              src="https://picsum.photos/200"
+              style="border-radius: 50%; width: 80px; margin-right: 30px"
+            />
+            <div class="media-body">
+              <h1 class="my-app__header-title">
+                Hi there, {{ userData.username }}!
+              </h1>
+              <div class="my-input input-group mb-3"></div>
+            </div>
+          </div>
+          <div class="my-action-buttons my-app__header__buttons">
+            <button class="my-action-button">
+              <img
+                class="my-action-button__icon"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Money_Flat_Icon.svg/1024px-Money_Flat_Icon.svg.png"
+                alt
+              />
+              Add Up money
+            </button>
+            <button class="my-action-button">
+              <img
+                class="my-action-button__icon"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrdotCf9svYzvR8d3UtnUwWnojX-ftj1D6sw&usqp=CAU"
+                alt
+              />
+              Shop Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End content header -->
+
+    <!-- Begin content body -->
+    <section class="my-app__body">
+      <div class="container">
+        <div class="row">
+          <div class="col-4">
+            <!-- Begin Payment Balance card -->
+            <div class="my-card card">
+              <div class="my-card__header card-header">
+                <div class="my-card__header-title">
+                  <div class="my-text-overline">Total Purchase</div>
+                  <h3 class="my-text-headline">£{{ this.totalPurchase }}</h3>
+                </div>
+                <a class="my-card__header-link">Details →</a>
+              </div>
+              <div class="my-card__body card-body">
+                <div class="my-text-overline">Available Currencies</div>
+                <dl class="my-list my-list--definitions my-dl">
+                  <dt>US Dollars</dt>
+                  <dd>£{{ this.GBPRates }} GBP</dd>
+                  <dt>British Pounds</dt>
+                  <dd>${{ this.USDRates }} USD</dd>
+                </dl>
+                <hr class="my-divider" />
+                <ul class="my-list my-list--simple list-inline mb-0">
+                  <li>
+                    <a style="color: red"
+                      >Total Discount Received (£{{ this.totalDiscount }}) →</a
+                    >
+                  </li>
+                  <li>
+                    <a style="color: red" *ngIf="this.orderData != undefined"
+                      >Top Purchases ({{ this.orderData.length }}) →</a
+                    >
+                  </li>
+                  <li><a>Add funds using Paypal →</a></li>
+                  <li><a>Withdraw funds →</a></li>
+                </ul>
+              </div>
+            </div>
+            <!-- End Payment Balance card -->
+
+            <!-- Begin Bank Accounts card -->
+            <!-- <div class="my-card card">
+              <div class="my-card__body card-body">
+                <div class="my-text-overline">Bank accounts and cards</div>
+                <ul class="my-list my-list--simple list-inline mb-0">
+                  <li class="my-list-item">
+                    <span class="list__icon">
+                      <img src="./images/icon-bank-of-america.svg" alt />
+                    </span>
+                    <span>Bank of America x-9966</span>
+                  </li>
+                  <li class="my-list-item">
+                    <span class="my-list-item__graphic list__icon">
+                      <img src="./images/icon-mastercard.svg" alt />
+                    </span>
+                    <span class="my-list-item__text">MasterCard x-1144</span>
+                  </li>
+                </ul>
+                <hr class="my-divider" />
+                <ul class="my-list-inline list-inline mb-0">
+                  <li><a >Add a Bank Account or Card →</a></li>
+                </ul>
+              </div>
+            </div> -->
+            <!-- End Bank Accounts card -->
+          </div>
+
+          <div class="col-8">
+            <div class="my-alert alert alert-info">
+              <img class="my-alert__icon" src="./images/icon-alert.svg" alt />
+              <span class="my-alert__text">
+                Your latest Orders may take a few minutes to show up in your
+                list.
+              </span>
+            </div>
+
+            <!-- Begin Pending card -->
+            <div class="my-card card">
+              <div class="my-card__header card-header">
+                <h3 class="my-card__header-title card-title">Pending Order</h3>
+                <a class="my-card__header-link">See all →</a>
+              </div>
+
+              <ul
+                class="my-list list-group list-group-flush"
+                *ngFor="let item of getPreviousOrders('Pending')"
+              >
+                <li class="my-list-item list-group-item">
+                  <div class="my-list-item__date">
+                    <!-- <span class="my-list-item__date-day">28</span>
+                    <span class="my-list-item__date-month">jul</span> -->
+                    <!-- <img [src]="item" alt=""> -->
+                    
+                  </div>
+                  <div class="my-list-item__text">
+                    <h4 class="my-list-item__text-title">
+                      {{ item.model }}
+                    </h4>
+                    <p class="my-list-item__text-description">
+                      {{ item.company_name }}
+                    </p>
+                  </div>
+                  <div class="my-list-item__fee">
+                    <span class="my-list-item__fee-delta"
+                      >+{{ item.discounted_price }}</span
+                    >
+                    <span class="my-list-item__fee-currency">GBP</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <!-- End Pending card -->
+
+            <!-- Begin Completed card -->
+            <div class="my-card card">
+              <div class="my-card__header card-header">
+                <h3 class="my-card__header-title card-title">Delivered</h3>
+                <a class="my-card__header-link">See all →</a>
+              </div>
+
+              <ul class="my-list list-group list-group-flush">
+                <li
+                  class="my-list-item list-group-item"
+                  *ngFor="let item of getPreviousOrders('Delivered')"
+                >
+                  <div class="my-list-item__date">
+                    <!-- <span class="my-list-item__date-day">28</span>
+                    <span class="my-list-item__date-month">jul</span> -->
+                    <!-- <img [src]="item" alt=""> -->
+                  </div>
+                  <div class="my-list-item__text">
+                    <h4 class="my-list-item__text-title">
+                      {{ item.company_name }}
+                    </h4>
+                    <p class="my-list-item__text-description">
+                      {{ item.model }}
+                    </p>
+                  </div>
+                  <div class="my-list-item__fee">
+                    <span class="my-list-item__fee-delta"
+                      >+{{ item.discounted_price }}</span
+                    >
+                    <span class="my-list-item__fee-currency">GBP</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <!-- End Completed card -->
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End content body -->
+  </main>
+</div>

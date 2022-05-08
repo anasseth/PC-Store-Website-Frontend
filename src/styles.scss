@@ -2,6 +2,7 @@
 
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/dist/css/bootstrap.min.css";
 
 @import url("https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i");
 
@@ -84,7 +85,7 @@ body {
   box-shadow: 0 4px 8px 0px rgba(0, 0, 0, 0.2); /*0px 22px 20px -10px rgba(0, 0, 0,0.2)*/
   padding: 35px 35px 40px 35px;
   text-align: center;
-  min-height: 525px;
+  height: 560px;
   transition: all 0.4s;
   -webkit-transition: all 0.4s;
   -moz-transition: all 0.4s;
@@ -104,7 +105,9 @@ body {
   background-size: 75%;
   background-repeat: no-repeat;
 }
-
+span.visually-hidden {
+  display: none;
+}
 // .price-box--purple .price-box__img {
 //   background-image: url("https://image.ibb.co/iGjEKG/1.png");
 // }
@@ -116,6 +119,15 @@ body {
 // .price-box--blue .price-box__img {
 //   background-image: url("https://preview.ibb.co/nDRpmw/3.png");
 // }
+
+.success {
+  background: #069ef7 !important;
+  color: white !important;
+}
+.danger {
+  background: #cc2424 !important;
+  color: white !important;
+}
 
 .price-box__title {
   font-size: 22px;
@@ -486,12 +498,12 @@ body {
   vertical-align: middle;
 }
 .header__title {
-  font-size: 18px;
-  margin: 0;
-  margin-left: 10px;
-  display: inline-block;
-  line-height: 18px;
-  vertical-align: middle;
+  font-size: 18px !important;
+  margin: 0 !important;
+  margin-left: 10px !important;
+  display: inline-block !important;
+  line-height: 18px !important;
+  vertical-align: middle !important;
 }
 
 .header__light {
@@ -969,4 +981,13 @@ body {
     font-size: 12px;
     float: none;
   }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
